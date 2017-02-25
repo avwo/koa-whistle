@@ -1,0 +1,23 @@
+{
+  "name": "koa-whistle",
+  "description": "whistle middleware for koa",
+  "version": "0.0.0",
+  "main": "./koa.js",
+  "author": "avenwu <avenwu@vip.qq.com>",
+  "contributors": [],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avwo/koa-whistle/issues"
+  },
+  "homepage": "https://github.com/avwo/koa-whistle",
+  "keywords": [
+    "proxy",
+    "fiddler",
+    "charles"
+  ],
+  "registry": "http://registry.npmjs.org/koa-whistle",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/avwo/koa-whistle.git"
+  }
+}
