@@ -2,7 +2,7 @@
   "name": "koa-whistle",
   "description": "whistle middleware for koa",
   "version": "0.0.0",
-  "main": "./koa.js",
+  "main": "./koa2.js",
   "author": "avenwu <avenwu@vip.qq.com>",
   "contributors": [],
   "license": "MIT",
