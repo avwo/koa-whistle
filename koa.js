@@ -9,7 +9,7 @@ module.exports = function (options) {
     }
     res = yield res;
     this.status = res.statusCode;
-    this.headers = res.headers;
+    this.set(res.headers);
     this.body = res;
   };
 };
