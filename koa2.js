@@ -1,8 +1,7 @@
 var proxy = require('./lib');
 
 module.exports = function (options) {
-  proxy.start(options);
-  var intercept = proxy.intercept;
+  var intercept = proxy(options);
   return async (ctx, next) => {
     var res = intercept(ctx.req, ctx.res);
     if (!res) {
