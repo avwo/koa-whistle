@@ -37,9 +37,18 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 		- `username`: 可选，设置访问whistle管理界面的用户名，设置以后需要登录才能访问whistle的管理界面
 		- `password`: 可选，设置访问whistle管理界面的密码，设置以后需要登录才能访问whistle的管理界面
 		 
-2. `proxy.start(options)`: 返回一个Promise对象，whistle启动成功后会把监听的端口号传给该Promise对象，**注意：手动启动中间件的whistle服务，每个proxy只会起一个whistle，执行 `proxy(options)` 及  `proxy.start(options)`都可以启动中间件的whistle服务，可以重复调用，但只会起第一个调用的服务**。
+2. `proxy.ready()`: 返回一个Promise对象，whistle启动成功后会触发这个Promise对象，并把端口号传过来
+3. `proxy.getPort()`: 同 `proxy.ready()`
+4. `proxy.createConnection(options)`: 通过whistle代理建立一个socket连接，这样请求可以显示在whistle的请求列表中
+	- `options`: 必填，包含一些属性
+		- ``: 
+		- ``: 
+		- ``: 
 
-	- `options`: 同 `proxy(options)`
+5. `proxy.createSocket(options)`: 同 `proxy.createConnection(options)`
+6. `proxy.setHost(headers, host)`: 
+7. `proxy.setProxy(headers, proxy)`: 
+8. `proxy.setSocks(headers, socks)`: 
 
 # 使用
 
@@ -51,7 +60,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 		const app = new Koa();
 	
 		// 最好放在所有中间件的前面
-		// options见下面的cgi说明
+		// options见上面的API说明
 		app.use(proxy(options));
 		// 添加其它中间件
 
@@ -64,7 +73,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 		var app = new Koa();
 	
 		// 最好放在所有中间件的前面
-		// options见下面的cgi说明
+		// options见上面的API说明
 		app.use(proxy(options));
 		// 添加其它中间件
 
@@ -77,9 +86,10 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 		var app = new Koa();
 	
 		// 最好放在所有中间件的前面
-		// options见下面的cgi说明
+		// options见上面的API说明
 		app.use(proxy(options));
 		// 添加其它中间件
 	
 	
+# 例子
 
