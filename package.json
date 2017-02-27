@@ -30,7 +30,7 @@
   "devDependencies": {
     "eslint": "^2.13.1",
     "istanbul": "^0.4.5",
-    "koa": "^2.0.1",
+    "koa": "^1.2.5",
     "mocha": "^3.2.0"
   },
   "dependencies": {
