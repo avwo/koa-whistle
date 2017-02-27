@@ -12,4 +12,6 @@ app.use(function* (next) {
   this.body = 'Hello world!';
 });
 
-app.listen(serverPort);
+app.listen(serverPort, function() {
+  console.log('Server listening on %s.', serverPort);
+});
