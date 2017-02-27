@@ -21,9 +21,6 @@ module.exports = function (options) {
     }, function(err) {
       res.status(500).send(err.stack);
     });
-    this.status = res.statusCode;
-    this.set(defer.headers);
-    this.body = defer;
   };
 };
 
