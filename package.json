@@ -11,9 +11,11 @@
   },
   "homepage": "https://github.com/avwo/koa-whistle",
   "keywords": [
+    "koa",
+    "express",
     "proxy",
-    "fiddler",
-    "charles"
+    "whistle",
+    "middleware"
   ],
   "registry": "http://registry.npmjs.org/koa-whistle",
   "repository": {
