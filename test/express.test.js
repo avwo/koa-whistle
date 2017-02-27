@@ -1,7 +1,7 @@
 var express = require('express');
 var app =express();
 var proxy = require('../express');
-var serverPort = 6001;
+var serverPort = 8001;
 
 app.use(proxy({
   name: 'test',
