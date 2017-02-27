@@ -31,7 +31,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 		- `name`: 必填，当前项目package.json里面对应的name属性即可，用于区分其它服务器的标识及存储whistle配置
 		- `serverPort`: 必填，当前服务器监听的端口号
 		- `port`: 必填，whistle使用的端口号，一般可以设置为 `serverPort + 10000`
-		- `rules`: 可选，设置whistle的默认规则
+		- `rules`: 可选，设置whistle的默认规则，也可以通过whistle配置管理界面手动设置
 		- `values`: 可选，往whistle的Values添加键值对
 		- `sockets`: 可选，设置whistle对相同域名的并发数，默认60，使用默认配置即可
 		- `username`: 可选，设置访问whistle管理界面的用户名，设置以后需要登录才能访问whistle的管理界面
