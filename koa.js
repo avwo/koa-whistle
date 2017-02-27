@@ -15,3 +15,4 @@ module.exports = function (options) {
   };
 };
 
+proxy.export(module.exports);
