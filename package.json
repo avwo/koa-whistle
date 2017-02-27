@@ -28,7 +28,7 @@
     "node": ">=0.12"
   },
   "devDependencies": {
-    "eslint": "^2.8.0",
+    "eslint": "^2.13.1",
     "istanbul": "^0.4.5",
     "koa": "^1.2.5",
     "mocha": "^3.2.0"
