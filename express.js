@@ -1,7 +1,5 @@
 var proxy = require('./lib');
 
-var noop = function() {};
-
 module.exports = function (options) {
   proxy.start(options);
   var intercept = proxy.intercept;
@@ -10,8 +8,8 @@ module.exports = function (options) {
     if (!defer) {
       return next();
     }
-    req.on('error', noop);
-    res.on('error', noop);
+    req.on('error', next);
+    res.on('error', next);
     defer.then(function(_res) {
       res.writeHead(_res.statusCode, _res.headers);
       _res.pipe(res);
