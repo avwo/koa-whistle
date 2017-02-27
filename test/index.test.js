@@ -6,7 +6,7 @@ var serverPort = 7001;
 app.use(useProxy({
   name: 'test',
   serverPort: serverPort,
-  port: 7799,
+  port: serverPort + 10000,
 }));
 app.use(function* (next) {
   this.body = 'Hello world!';
