@@ -15,3 +15,8 @@ app.use(function (req, res, next) {
 app.listen(serverPort, function() {
   console.log('Server listening on %s.', serverPort);
 });
+
+proxy.connect({
+  host: '127.0.0.1',
+  port: 1234,
+});

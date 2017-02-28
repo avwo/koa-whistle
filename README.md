@@ -28,6 +28,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 
 1. `proxy(options)`: 返回中间件方法，类型：`Function` 
 	- `options`: 必填，包含以下属性
+		- `baseDir`: 可选，项目的根路径，即 `package.json` 所在目录，主要用于whistle加载自定义插件，如果baseDir存在，则whistle会在 `path.join(baseDir, 'node_modules')` 里面加载whistle插件，方便用户通过 `package.json` 的开发依赖导入自定义的whistle插件。
 		- `name`: 必填，当前项目package.json里面对应的name属性即可，用于区分其它服务器的标识及存储whistle配置
 		- `serverPort`: 必填，当前服务器监听的端口号
 		- `port`: 必填，whistle使用的端口号，一般可以设置为 `serverPort + 10000`
@@ -39,13 +40,13 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 		 
 2. `proxy.ready()`: 返回一个Promise对象，whistle启动成功后会触发这个Promise对象，并把端口号传过来
 3. `proxy.getPort()`: 同 `proxy.ready()`
-4. `proxy.createConnection(options)`: 通过whistle代理建立一个socket连接，这样请求可以显示在whistle的请求列表中
+4. `proxy.connect(options)`: 通过whistle代理建立一个socket连接，这样请求可以显示在whistle的请求列表中
 	- `options`: 必填，包含一些属性
 		- ``: 
 		- ``: 
 		- ``: 
 
-5. `proxy.createSocket(options)`: 同 `proxy.createConnection(options)`
+5. `proxy.createConnection(options)`: 同 `proxy.connect(options)`
 6. `proxy.setHost(headers, host)`: 
 7. `proxy.setProxy(headers, proxy)`: 
 8. `proxy.setSocks(headers, socks)`: 
