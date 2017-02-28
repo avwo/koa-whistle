@@ -3,19 +3,29 @@ var proxy = require('../../lib');
 
 var port = util.port;
 
-describe('#connect', function() {
-  it('normal', function(done) {
-    proxy.ready().then(function(port) {
+describe('connect', function() {
+  before(function(done) {
+    done();
+  });
 
+  it('#normal', function(done) {
+    proxy.ready().then(function(port) {
+      done();
     });
   });
-  it('with host', function(done) {
-
+  it('#host', function(done) {
+    proxy.ready().then(function(port) {
+      done();
+    });
   });
-  it('with proxy', function(done) {
-
+  it('#proxy', function(done) {
+    proxy.ready().then(function(port) {
+      done();
+    });
   });
-  it('with socks', function(done) {
-
+  it('#socks', function(done) {
+    proxy.ready().then(function(port) {
+      done();
+    });
   });
 });
