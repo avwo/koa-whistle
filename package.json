@@ -1,6 +1,6 @@
 {
   "name": "koa-whistle",
-  "description": "whistle middleware for koa",
+  "description": "whistle middleware for koa, express",
   "version": "0.0.0",
   "main": "./koa2.js",
   "author": "avenwu <avenwu@vip.qq.com>",
