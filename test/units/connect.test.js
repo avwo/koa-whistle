@@ -1,8 +1,6 @@
 var util = require('../util.test');
 var proxy = require('../../lib');
 
-var port = util.port;
-
 describe('connect', function() {
   before(function(done) {
     done();
