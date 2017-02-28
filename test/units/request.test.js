@@ -1,4 +1,5 @@
 var proxy = require('../../lib');
+
 describe('request', function() {
   before(function(done) {
     proxy.ready().then(function(port) {

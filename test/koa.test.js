@@ -1,7 +1,6 @@
 var Koa = require('koa');
 var app = new Koa();
 var proxy = require('../koa');
-var util = require('./util.test');
 var serverPort = 7001;
 
 app.use(proxy({
