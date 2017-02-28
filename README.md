@@ -37,6 +37,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 		- `sockets`: 可选，设置whistle对相同域名的并发数，默认60，使用默认配置即可
 		- `username`: 可选，设置访问whistle管理界面的用户名，设置以后需要登录才能访问whistle的管理界面
 		- `password`: 可选，设置访问whistle管理界面的密码，设置以后需要登录才能访问whistle的管理界面
+		- `hint`: 可选，false | string, 用于关闭koa-whistle启动时控制台的提醒或重新修改控制台的提醒
 		 
 2. `proxy.ready()`: 返回一个Promise对象，whistle启动成功后会触发这个Promise对象，并把端口号传过来
 3. `proxy.getPort()`: 同 `proxy.ready()`

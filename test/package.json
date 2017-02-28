@@ -1,6 +1,0 @@
-{
-  "devDependencies": {
-    "express": "^4.14.1",
-    "koa": "^1.2.5"
-  }
-}
