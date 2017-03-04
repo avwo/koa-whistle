@@ -9,9 +9,12 @@ beforeEach(function(done) {
         util.startHttpServer(),
         util.startProxyServer(),
         util.startSocksServer(),
-      ]).then(done);
+        util.startSocketServer(),
+      ]).then(function() {
+        done();
+      });
   });
 });
 require('./units/connect.test');
-require('./units/request.test');
-require('./units/rules.test');
+// require('./units/request.test');
+// require('./units/rules.test');

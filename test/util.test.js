@@ -10,6 +10,7 @@ var proxyServerPort = exports.proxyServerPort = 1090;
 var socksServerPort = exports.socksServerPort = 1080;
 var httpServerPort = exports.httpServerPort = 1070;
 var httpsServerPort = exports.httpsServerPort = 1060;
+var socketServerPort = exports.socketServerPort = 1050;
 var options = {
   key: fs.readFileSync(path.join(__dirname, 'assets/certs/root.key')),
   cert: fs.readFileSync(path.join(__dirname, 'assets/certs/root.crt'))
@@ -88,13 +89,13 @@ exports.startSocksServer = function() {
   });
 };
 
-exports.startHttpServer =function() {
+exports.startHttpServer = function() {
 
   return Promise.all([
     new Promise(function(resolve) {
       https.createServer(options, function(req, res) {
         res.end('HTTPS');
-      }).listen(httpsServerPort);
+      }).listen(httpsServerPort, resolve);
     }),
     new Promise(function(resolve) {
       var server = http.createServer(function(req, res) {
@@ -105,5 +106,17 @@ exports.startHttpServer =function() {
   ]);
 };
 
+exports.startSocketServer = function() {
 
+  return new Promise(function(resolve) {
+    var server = net.createServer();
+    server.on('connection', function(socket) {
+      socket.write('socket');
+      socket.on('data', function(data) {
+        console.log(data + '==========')
+      })
+    });
+    server.listen(socketServerPort, resolve);
+  });
+};
 

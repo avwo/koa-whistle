@@ -7,8 +7,6 @@ koa-whistle为集成[web调试代理工具whistle](https://github.com/avwo/whist
 3. 操作上述两种请求：mock数据、配置hosts、设置代理、替换请求等，更多功能参见：[whistle](https://github.com/avwo/whistle)
 
 
-	【图片】
-
 # 安装
 
 	npm i --save-dev koa-whistle
@@ -84,7 +82,6 @@ GIF图
 7. `proxy.setProxy(headers, proxy)`: 
 8. `proxy.setSocks(headers, socks)`: 
 9. `proxy.setHttpsRequest(headers)`: 
-
 
 	
 # 例子
