@@ -26,7 +26,7 @@
     "lint": "eslint ./lib koa.js koa2.js express.js",
     "lintfix": "eslint --fix ./lib koa.js koa2.js express.js",
     "test": "mocha --harmony test/index.test.js -R spec -t 5000",
-    "cov": "istanbul cover _mocha --harmony -- test/index.test.js -R spec -t 5000"
+    "cov": "istanbul cover _mocha -- test/index.test.js --harmony -R spec -t 5000"
   },
   "engines": {
     "node": ">=0.12"
