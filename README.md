@@ -42,7 +42,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 	**/
 
 	// 安装中间件
-	var serverPort = 6001;
+	var serverPort = 7001;
 	var proxyPort = serverPort + 10000;
 	app.use(proxy({
 		name: 'test', // 项目名称，一般为package.json的name字段
@@ -74,7 +74,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 	app.listen(serverPort);
 
 
-按上述方式启动后打开whistle的管理配置界面：[http://127.0.0.1:16001](http://127.0.0.1:16001/)，即可看到访问 `6001` 端口的所有请求。
+按上述方式启动后打开whistle的管理配置界面：[http://127.0.0.1:17001](http://127.0.0.1:17001/)，即可看到访问 `7001` 端口的所有请求。
 
 ![koa-whistle](https://raw.githubusercontent.com/avwo/whistleui/master/img/koa-whistle.png)
 
