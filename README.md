@@ -70,7 +70,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 
 按上述方式启动后打开whistle的管理配置界面：[http://127.0.0.1:16001](http://127.0.0.1:16001/)，即可看到访问 `6001` 端口的所有请求。
 
-GIF图
+![koa-whistle](https://raw.githubusercontent.com/avwo/whistleui/master/img/koa-whistle.png)
 
 # API	
 
