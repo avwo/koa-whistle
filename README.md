@@ -41,7 +41,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 	app.use(proxy({
 		name: 'test', // 项目名称，一般为package.json的name字段
 		baseDir: 'xxxxxx', // 项目根目录，及package.json所在目录
-		serverPory: serverPort, // 服务器监听的端口
+		serverPort: serverPort, // 服务器监听的端口
 		port: proxyPort, // whistle监听的端口
 	}));
 
