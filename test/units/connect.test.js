@@ -1,8 +1,6 @@
 var assert = require('assert');
 var proxy = require('../../lib');
 var util = require('../util.test');
-var request = require('request');
-var r = request.defaults({ 'proxy': 'http://127.0.0.1:' + proxy.getPortSync() })
 
 describe('connect', function() {
   it('#default', function(done) {
