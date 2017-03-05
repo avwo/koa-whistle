@@ -32,11 +32,9 @@ describe('request', function() {
     });
   });
   it('#proxy', function(done) {
-    var headers = {};
-    proxy.setProxy(headers, '127.0.0.1:' + util.proxyServerPort);
     r({
       url: 'http://www.qq.com/abc',
-      headers: headers,
+      headers: proxy.setProxy({}, '127.0.0.1:' + util.proxyServerPort),
     }, function(err, res, body) {
       assert(body === 'HTTP');
       done();
@@ -71,6 +69,19 @@ describe('request', function() {
       url: 'http://ts.whistlejs.com/'
     }, function(err, res, body) {
       assert(JSON.parse(body).ruleValue === 'none');
+      done();
+    });
+    r({
+      url: 'http://www.test.com/index.html'
+    }, function(err, res, body) {
+      assert(body === 'Hello');
+      done();
+    });
+    r({
+      url: 'http://www.test.com/index.html',
+      headers: proxy.setHttpsRequest({})
+    }, function(err, res, body) {
+      assert(JSON.parse(body).ec === 0);
       done();
     });
   });
