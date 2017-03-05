@@ -1,5 +1,11 @@
 # koa-whistle
 
+[![node version](https://img.shields.io/badge/node.js-%3E=_0.12-green.svg?style=flat-square)](http://nodejs.org/download/)
+[![build status](https://img.shields.io/travis/avwo/koa-whistle.svg?style=flat-square)](https://travis-ci.org/avwo/koa-whistle)
+[![Test coverage](https://codecov.io/gh/avwo/whistle/branch/master/graph/badge.svg?style=flat-square)](https://codecov.io/gh/avwo/koa-whistle)
+[![David deps](https://img.shields.io/david/avwo/koa-whistle.svg?style=flat-square)](https://david-dm.org/avwo/koa-whistle)
+[![License](https://img.shields.io/npm/l/koa-whistle.svg?style=flat-square)](https://www.npmjs.com/package/koa-whistle)
+
 koa-whistle为集成[web调试代理工具whistle](https://github.com/avwo/whistle)的koa、koa@2及express的中间件，可以在web服务的开发调试阶段做如下的功能：
 
 1. 查看所有请求服务器的http[s]请求

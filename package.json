@@ -1,7 +1,7 @@
 {
   "name": "koa-whistle",
   "description": "whistle middleware for koa, express",
-  "version": "0.1.0-beta",
+  "version": "0.1.0",
   "main": "./koa2.js",
   "author": "avenwu <avenwu@vip.qq.com>",
   "contributors": [],
@@ -26,7 +26,7 @@
     "lint": "eslint ./lib koa.js koa2.js express.js",
     "lintfix": "eslint --fix ./lib koa.js koa2.js express.js",
     "test": "mocha --harmony test/index.test.js -R spec -t 5000",
-    "cov": "istanbul --harmony cover _mocha -- test/index.test.js -R spec -t 5000"
+    "cov": "node --harmony node_modules/istanbul/lib/cli.js cover _mocha -- test/index.test.js -R spec -t 5000"
   },
   "engines": {
     "node": ">=0.12"
