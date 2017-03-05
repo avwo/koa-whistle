@@ -1,9 +1,17 @@
+var assert = require('assert');
 var proxy = require('../../lib');
+var util = require('../util.test');
+var request = require('request');
+var r = request.defaults({ 'proxy': 'http://127.0.0.1:' + proxy.getPortSync() });
 
 // describe('request', function() {
-//   it('#user', function(done) {
-
-//   });
+  it('#default', function(done) {
+    r({ url: 'http://127.0.0.1:' + util.httpServerPort + '/test' },
+    function(err, res, body) {
+      assert(body === 'HTTP');
+      done();
+    });
+  });
 //   it('#server', function(done) {
 
 //   });
