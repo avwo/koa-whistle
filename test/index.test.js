@@ -17,4 +17,3 @@ before(function(done) {
 });
 require('./units/connect.test');
 require('./units/request.test');
-// require('./units/rules.test');

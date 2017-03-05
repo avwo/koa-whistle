@@ -12,9 +12,13 @@ var r = request.defaults({ 'proxy': 'http://127.0.0.1:' + proxy.getPortSync() })
       done();
     });
   });
-//   it('#server', function(done) {
-
-//   });
+  it('#server', function(done) {
+    r({ url: 'http://127.0.0.1:7001/test' },
+    function(err, res, body) {
+      assert(body === 'Hello world!');
+      done();
+    });
+  });
 //   it('#host', function(done) {
 
 //   });
