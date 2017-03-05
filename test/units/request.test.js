@@ -67,6 +67,11 @@ describe('request', function() {
     });
   });
   it('#mock', function(done) {
-done();
+    r({
+      url: 'http://ts.whistlejs.com/'
+    }, function(err, res, body) {
+      assert(JSON.parse(body).ruleValue === 'none');
+      done();
+    });
   });
 });

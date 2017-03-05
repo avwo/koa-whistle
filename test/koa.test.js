@@ -1,9 +1,12 @@
 var Koa = require('koa');
 var app = new Koa();
 var proxy = require('../koa');
+var join = require('path').join;
+var baseDir = join(__dirname, '../');
 var serverPort = 7001;
 
 app.use(proxy({
+  baseDir: baseDir,
   name: 'test',
   serverPort: serverPort,
   port: serverPort + 10000,

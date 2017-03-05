@@ -1,9 +1,12 @@
 var express = require('express');
 var app =express();
 var proxy = require('../express');
+var join = require('path').join;
+var baseDir = join(__dirname, '../');
 var serverPort = 8001;
 
 app.use(proxy({
+  baseDir: baseDir,
   name: 'test',
   serverPort: serverPort,
   port: serverPort + 10000,
