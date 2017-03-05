@@ -1,6 +1,8 @@
 var assert = require('assert');
 var proxy = require('../../lib');
 var util = require('../util.test');
+var request = require('request');
+var r = request.defaults({ 'proxy': 'http://127.0.0.1:' + proxy.getPortSync() })
 
 describe('connect', function() {
   it('#default', function(done) {
@@ -24,10 +26,28 @@ describe('connect', function() {
         });
       });
   });
-  // it('#proxy', function(done) {
-
-  // });
-  // it('#socks', function(done) {
-
-  // });
+  it('#proxy', function(done) {
+    proxy.connect({
+      port: util.socketServerPort,
+      host: 'proxy.koa-whistle.com',
+      rules: { proxy: '127.0.0.1:' + util.proxyServerPort }
+    }).then(function(socket) {
+        socket.on('data', function(data) {
+          assert('socket' === data + '');
+          done();
+        });
+      });
+  });
+  it('#socks', function(done) {
+    proxy.connect({
+      port: util.socketServerPort,
+      host: 'socks.koa-whistle.com',
+      rules: { socks: '127.0.0.1:' + util.socksServerPort }
+    }).then(function(socket) {
+        socket.on('data', function(data) {
+          assert('socket' === data + '');
+          done();
+        });
+      });
+  });
 });

@@ -32,9 +32,10 @@ exports.startProxyServer = function() {
   });
 
   server.on('connect', function(req, socket) {
+    var options = parseUrl('https://' + req.url);
     var client = net.connect({
       host: '127.0.0.1',
-      port: httpsServerPort
+      port: options.port || httpsServerPort
     }, function() {
       socket.pipe(client).pipe(socket);
       socket.write('HTTP/1.1 200 Connection Established\r\nProxy-Agent: whistle/test\r\n\r\n');
@@ -72,15 +73,12 @@ exports.startSocksServer = function() {
       return;
     }
     if (socket = accept(true)) {
-      var body = 'socks';
-      socket.end([
-        'HTTP/1.1 200 OK',
-        'Connection: close',
-        'Content-Type: text/plain;charset=utf8',
-        'Content-Length: ' + Buffer.byteLength(body),
-        '',
-        body
-      ].join('\r\n'));
+      client = net.connect({
+        host: '127.0.0.1',
+        port: info.dstPort
+      }, function() {
+        socket.pipe(client).pipe(socket);
+      });
     }
   });
   socksServer.useAuth(socks.auth.None());

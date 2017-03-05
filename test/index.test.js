@@ -3,7 +3,7 @@ require('./express.test');
 
 var util = require('./util.test');
 var proxy = require('../lib');
-beforeEach(function(done) {
+before(function(done) {
   proxy.ready().then(function(port) {
       Promise.all([
         util.startHttpServer(),
