@@ -11,7 +11,7 @@ install:
   - npm install
 
 script:
-  - npm run cov
+  - npm run test
 
 after_script:
   - npm i codecov && codecov
