@@ -19,9 +19,18 @@ var r = request.defaults({ 'proxy': 'http://127.0.0.1:' + proxy.getPortSync() })
       done();
     });
   });
-//   it('#host', function(done) {
-
-//   });
+  it('#host', function(done) {
+    var headers = {};
+    proxy.setHost(headers, '127.0.0.1:' + util.httpsServerPort);
+    proxy.setHttpsRequest(headers);
+    r({
+      url: 'http://www.qq.com/abc',
+      headers: headers,
+    }, function(err, res, body) {
+      assert(body === 'HTTPS');
+      done();
+    });
+  });
   it('#proxy', function(done) {
     var headers = {};
     proxy.setProxy(headers, '127.0.0.1:' + util.proxyServerPort);
