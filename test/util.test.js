@@ -110,9 +110,6 @@ exports.startSocketServer = function() {
     var server = net.createServer();
     server.on('connection', function(socket) {
       socket.write('socket');
-      socket.on('data', function(data) {
-        console.log(data + '==========')
-      })
     });
     server.listen(socketServerPort, resolve);
   });
