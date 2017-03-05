@@ -44,12 +44,13 @@ describe('request', function() {
   });
   it('#socks', function(done) {
     var headers = {};
-    proxy.setProxy(headers, '127.0.0.1:' + util.socksyServerPort);
+    proxy.setSocks(headers, '127.0.0.1:' + util.socksServerPort);
+    proxy.setHttpsRequest(headers);
     r({
-      url: 'http://www.qq.com/abc',
+      url: 'http://www.qq.com:443/abc',
       headers: headers,
     }, function(err, res, body) {
-      assert('socket' === data + '');
+      assert('HTTPS' === body);
       done();
     });
   });
