@@ -109,7 +109,9 @@ exports.startSocketServer = function() {
   return new Promise(function(resolve) {
     var server = net.createServer();
     server.on('connection', function(socket) {
-      socket.write('socket');
+      setTimeout(function() {
+        socket.write('socket');
+      }, 100);
     });
     server.listen(socketServerPort, resolve);
   });
