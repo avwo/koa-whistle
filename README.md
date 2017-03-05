@@ -103,6 +103,6 @@ GIF图
 6. `proxy.setHost(headers, host)`:  设置http[s]请求的hosts，如 `127.0.0.1`、`127.0.0.1:5566`
 7. `proxy.setProxy(headers, proxy)`: 设置http[s]请求的代理服务器的ip和端口，如 `127.0.0.1:8899`
 8. `proxy.setSocks(headers, socks)`: 设置http[s]请求的socksv5代理服务器的ip和端口，如 `127.0.0.1:1080`
-9. `proxy.setHttpsRequest(headers)`: 通过设置请求的headers，whistle可以自动把http请求转成https请求，具体参见测试用例的写法： [例子]()
+9. `proxy.setHttpsRequest(headers)`: 通过设置请求的headers，whistle可以自动把http请求转成https请求，具体参见测试用例的写法： [例子](https://github.com/avwo/koa-whistle/tree/master/test)
 
 
