@@ -4,7 +4,7 @@ var util = require('../util.test');
 var request = require('request');
 var r = request.defaults({ 'proxy': 'http://127.0.0.1:' + proxy.getPortSync() });
 
-// describe('request', function() {
+describe('request', function() {
   it('#default', function(done) {
     r({ url: 'http://127.0.0.1:' + util.httpServerPort + '/test' },
     function(err, res, body) {
@@ -42,9 +42,17 @@ var r = request.defaults({ 'proxy': 'http://127.0.0.1:' + proxy.getPortSync() })
       done();
     });
   });
-//   it('#socks', function(done) {
-
-//   });
+  it('#socks', function(done) {
+    var headers = {};
+    proxy.setProxy(headers, '127.0.0.1:' + util.socksyServerPort);
+    r({
+      url: 'http://www.qq.com/abc',
+      headers: headers,
+    }, function(err, res, body) {
+      assert('socket' === data + '');
+      done();
+    });
+  });
   it('#https', function(done) {
     var headers = {};
     proxy.setHttpsRequest(headers);
@@ -57,7 +65,7 @@ var r = request.defaults({ 'proxy': 'http://127.0.0.1:' + proxy.getPortSync() })
       done();
     });
   });
-//   it('#mock', function(done) {
+  it('#mock', function(done) {
 
-//   });
-// });
+  });
+});
