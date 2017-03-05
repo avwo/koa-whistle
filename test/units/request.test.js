@@ -45,9 +45,18 @@ var r = request.defaults({ 'proxy': 'http://127.0.0.1:' + proxy.getPortSync() })
 //   it('#socks', function(done) {
 
 //   });
-//   it('#https', function(done) {
-
-//   });
+  it('#https', function(done) {
+    var headers = {};
+    proxy.setHttpsRequest(headers);
+    proxy.setHost(headers, '127.0.0.1');
+    r({
+      url: 'http://www.qq.com:' + util.httpsServerPort + '/abc',
+      headers: headers,
+    }, function(err, res, body) {
+      assert(body === 'HTTPS');
+      done();
+    });
+  });
 //   it('#mock', function(done) {
 
 //   });
