@@ -88,19 +88,21 @@ GIF图
 		- `hint`: 可选，false | string, 用于关闭koa-whistle启动时控制台的提醒或重新修改whistle启动后控制台的提醒
 		 
 2. `proxy.ready()`: 返回一个Promise对象，whistle启动成功后会触发这个Promise对象，并把端口号传过来
-3. `proxy.getPort()`: 同 `proxy.ready()`
-4. `proxy.connect(options)`: 通过whistle代理建立一个socket连接，这样请求可以显示在whistle的请求列表中
+3. `proxy.getPort()`: 同 `proxy.ready()
+4. `proxy.getPortSync()`: 直接返回whistle监听的端口号，用这个方法不能确保whistle已经启动起来(一般除了启动初始化时调用接口用上面的 `getPort`，其它情况都可以直接设置接口)
+5. `proxy.connect(options)`: 通过whistle代理建立一个socket连接，这样请求可以显示在whistle的请求列表中
 	- `options`: 必填，包含一些属性
-		- ``: 
-		- ``: 
-		- ``: 
+		- `host`: 设置请求的IP或host，同 [net.Socket](https://nodejs.org/dist/latest-v6.x/docs/api/net.html#net_socket_connect_options_connectlistener)
+		- `port`: 请求端口号 
+		- `rules`:  动态设置规则
+			- `host`: 设置hosts，即请求服务器的ip和端口，如 `127.0.0.1`、`127.0.0.1:5566`
+			- `proxy`: 设置代理服务器的ip和端口，如 `127.0.0.1:8899`
+			- `socks`: 设置socksv5代理服务器的ip和端口，如 `127.0.0.1:1080`
 
 5. `proxy.createConnection(options)`: 同 `proxy.connect(options)`
-6. `proxy.setHost(headers, host)`: 
-7. `proxy.setProxy(headers, proxy)`: 
-8. `proxy.setSocks(headers, socks)`: 
-9. `proxy.setHttpsRequest(headers)`: 
+6. `proxy.setHost(headers, host)`:  设置http[s]请求的hosts，如 `127.0.0.1`、`127.0.0.1:5566`
+7. `proxy.setProxy(headers, proxy)`: 设置http[s]请求的代理服务器的ip和端口，如 `127.0.0.1:8899`
+8. `proxy.setSocks(headers, socks)`: 设置http[s]请求的socksv5代理服务器的ip和端口，如 `127.0.0.1:1080`
+9. `proxy.setHttpsRequest(headers)`: 通过设置请求的headers，whistle可以自动把http请求转成https请求，具体参见测试用例的写法： [例子]()
 
-	
-# 例子
 
