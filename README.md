@@ -53,14 +53,14 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 
 	// koa@1(支持generator的版本，版本小于 `v2.0.0` 的koa)
 	/**
-	app.use(function* (next) => {
+	app.use(function* (next) {
 		this.body = 'Hello world!';
 	});
 	**/
 	
 	// express
 	/**
-	app.use(function(req, res, next) => {
+	app.use(function(req, res, next) {
 		res.end('Hello world!');
 	});
 	**/
