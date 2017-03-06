@@ -27,7 +27,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 	const Koa = require('koa');
 	const app = new Koa();
 
-	// koa@1(支持generator的版本，版本小于 `v2.0.0` 的koa)
+	// koa@1(支持generator的版本，版本为 `v1.x` 的koa)
 	/**
 	var proxy = require('koa-whistle/koa');
 	var Koa = require('koa');
@@ -83,7 +83,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 	// koa@2(支持async-await的版本，版本大于 `v2.0.0` 的koa)
 	const proxy = require('koa-whistle');
 
-	// koa@1(支持generator的版本，版本小于 `v2.0.0` 的koa)
+	// koa@1(支持generator的版本，版本为 `v1.x` 的koa)
 	var proxy = require('koa-whistle/koa');
 
 	// express
