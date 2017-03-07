@@ -15,7 +15,7 @@ koa-whistle为集成[web调试代理工具whistle](https://github.com/avwo/whist
 
 # 安装
 
-	npm i --save-dev koa-whistle
+	npm i --save koa-whistle
 
 # 使用
 
