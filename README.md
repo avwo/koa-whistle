@@ -121,5 +121,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 7. `proxy.setProxy(headers, proxy)`: 设置http[s]请求的代理服务器的ip和端口，如 `127.0.0.1:8899`
 8. `proxy.setSocks(headers, socks)`: 设置http[s]请求的socksv5代理服务器的ip和端口，如 `127.0.0.1:1080`
 9. `proxy.setHttpsRequest(headers)`: 通过设置请求的headers，whistle可以自动把http请求转成https请求，具体参见测试用例的写法： [例子](https://github.com/avwo/koa-whistle/tree/master/test)
+10. `proxy.startProxy(options)`: 同上面的 `proxy(options)`，主要用于在cluster启动whistle
+
 
 
