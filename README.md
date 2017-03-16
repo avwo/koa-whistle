@@ -76,7 +76,7 @@ koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种�
 
 按上述方式启动后打开whistle的管理配置界面：[http://127.0.0.1:17001](http://127.0.0.1:17001/)，即可看到访问 `7001` 端口的所有请求。
 
-**Note: 如果启动Cluster，使用koa-whistle的时候，只能启动一个worker，不然会有问题**
+**Note: 如果启动Cluster，需要在master进程中启动whistle，或者只启一个worker**
 
 ![koa-whistle](https://raw.githubusercontent.com/avwo/whistleui/master/img/koa-whistle.png)
 
