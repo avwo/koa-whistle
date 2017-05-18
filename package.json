@@ -1,8 +1,8 @@
 {
   "name": "koa-whistle",
   "description": "whistle middleware for koa, express",
-  "version": "0.1.5",
-  "main": "./koa2.js",
+  "version": "1.0.0",
+  "main": "./lib",
   "author": "avenwu <avenwu@vip.qq.com>",
   "contributors": [],
   "license": "MIT",
@@ -23,26 +23,30 @@
     "url": "https://github.com/avwo/koa-whistle.git"
   },
   "scripts": {
-    "lint": "eslint ./lib koa.js koa2.js express.js",
-    "lintfix": "eslint --fix ./lib koa.js koa2.js express.js",
-    "test": "mocha --harmony test/index.test.js -R spec -t 5000",
-    "cov": "node --harmony node_modules/istanbul/lib/cli.js cover _mocha -- test/index.test.js -R spec -t 5000"
+    "lint": "eslint ./lib ./test",
+    "lintfix": "eslint --fix ./lib ./test",
+    "test": "mocha test/index.test.js -R spec -t 10000",
+    "cov": "node node_modules/istanbul/lib/cli.js cover _mocha -- test/index.test.js -R spec -t 10000",
+    "winCov": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- test/index.test.js -R spec -t 10000"
   },
   "engines": {
-    "node": ">=0.12"
+    "node": ">=6"
   },
   "devDependencies": {
-    "eslint": "^2.13.1",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-imweb": "^0.1.0",
     "express": "^4.14.1",
     "istanbul": "^0.4.5",
     "koa": "^1.2.5",
     "mocha": "^3.2.0",
-    "request": "^2.79.0",
-    "socksv5": "0.0.6",
     "whistle.test": "0.0.39"
   },
   "dependencies": {
+    "co": "^4.6.0",
     "parseurl": "^1.3.1",
-    "whistle": "^1.3.12"
+    "request": "^2.81.0",
+    "whistle": "^1.4.1",
+    "whistle.rules": "^0.1.0"
   }
 }

@@ -1,127 +1,80 @@
 # koa-whistle
 
-[![node version](https://img.shields.io/badge/node.js-%3E=_0.12-green.svg?style=flat-square)](http://nodejs.org/download/)
-[![build status](https://img.shields.io/travis/avwo/koa-whistle.svg?style=flat-square)](https://travis-ci.org/avwo/koa-whistle)
-[![Test coverage](https://codecov.io/gh/avwo/koa-whistle/branch/master/graph/badge.svg?style=flat-square)](https://codecov.io/gh/avwo/koa-whistle)
-[![David deps](https://img.shields.io/david/avwo/koa-whistle.svg?style=flat-square)](https://david-dm.org/avwo/koa-whistle)
-[![License](https://img.shields.io/npm/l/koa-whistle.svg?style=flat-square)](https://www.npmjs.com/package/koa-whistle)
-
-koa-whistle为集成[web调试代理工具whistle](https://github.com/avwo/whistle)的koa、koa@2及express的中间件，可以在web服务的开发调试阶段做如下的功能：
-
-1. 查看所有请求服务器的http[s]请求
-2. 查看所有服务器内部发出的http[s]、socket请求
-3. 操作上述两种请求：mock数据、配置hosts、设置代理、替换请求等，更多功能参见：[whistle](https://github.com/avwo/whistle)
-
+集成[whistle](https://github.com/avwo/whistle)的express、koa、koa2的中间件，通过该中间件可以在启动web服务时运行一个whistle，通过whistle查看所有访问web服务的请求，web服务内部程序调用的http[s]、socket请求也可以转发到该whistle，通过whistle请求指定的ip和端口；也可以直接转发到本地或远程的whistle，无需每个web服务起一个whistle；从而可以通过whistle及whistle的插件操作所有用户请求和程序内部发出的请求，如：mock数据、配置hosts、设置代理、替换请求等，更多功能参见[whistle帮助文档](https://avwo.github.io/whistle/)
 
 # 安装
 
-	npm i --save koa-whistle
+```  npm i --save koa-whistle```
+
+*Note: koa-whistle要求 `Node >= v6.0.0`，如果要作为koa2的中间件要求 `Node >= v7.0.0`*
+
+
 
 # 使用
 
-koa-whistle中间件支持koa@2、koa@1及express三种常用web框架，三种框架的处理引用的文件有区别以外，其它使用方法都一样：
-
-	// 三种框架的初始化方式
-	// koa@2(支持async-await的版本，版本大于 `v2.0.0` 的koa)
-	const proxy = require('koa-whistle');
-	const Koa = require('koa');
-	const app = new Koa();
-
-	// koa@1(支持generator的版本，版本为 `v1.x` 的koa)
-	/**
-	var proxy = require('koa-whistle/koa');
-	var Koa = require('koa');
-	var app = new Koa();
-	**/
-	
-	// express
-	/**
-	var proxy = require('koa-whistle/express');
-	var express = require('express');
-	var app = express();
-	**/
-
-	// 安装中间件
-	var serverPort = 7001;
-	var proxyPort = serverPort + 10000;
-	app.use(proxy({
-		name: 'test', // 项目名称，一般为package.json的name字段
-		baseDir: 'xxxxxx', // 项目根目录，及package.json所在目录
-		serverPort: serverPort, // 服务器监听的端口
-		port: proxyPort, // whistle监听的端口
-	}));
-
-	// 设置其它中间件
-	// koa@2(支持async-await的版本，版本大于 `v2.0.0` 的koa)
-	app.use(async (ctx) => {
-		ctx.body = 'Hello world!';
-	});
-
-	// koa@1(支持generator的版本，版本为 `v1.x` 的koa)
-	/**
-	app.use(function* (next) {
-		this.body = 'Hello world!';
-	});
-	**/
-	
-	// express
-	/**
-	app.use(function(req, res, next) {
-		res.end('Hello world!');
-	});
-	**/
-
-	app.listen(serverPort);
+```const proxy = require('koa-whistle');```
 
 
-按上述方式启动后打开whistle的管理配置界面：[http://127.0.0.1:17001](http://127.0.0.1:17001/)，即可看到访问 `7001` 端口的所有请求。
 
-**Note: 如果启动Cluster，需要在master进程中启动whistle，或者只启一个worker**
+# API
 
-![koa-whistle](https://raw.githubusercontent.com/avwo/whistleui/master/img/koa-whistle.png)
+```const proxy = require('koa-whistle');```
 
-# API	
+1. `proxy.startWhistle(options) || proxy.startProxy(options)`: 运行内置whistle，如果是 **cluster模式**，可以在master进程上运行whistle即可；不一定要启动内置的whistle，也可以直接使用外部现有的whistle，如果需要使用外面已经运行的whistle，必须安装一个插件：[whistle.rules](https://github.com/whistle-plugins/whistle.rules)
 
-	// koa@2(支持async-await的版本，版本大于 `v2.0.0` 的koa)
-	const proxy = require('koa-whistle');
+   `options`:
 
-	// koa@1(支持generator的版本，版本为 `v1.x` 的koa)
-	var proxy = require('koa-whistle/koa');
+   - `name`:  **必填**，String，项目的名称，一般为项目package.json对应的name，用于区分whistle的存储目录
 
-	// express
-	var proxy = require('koa-whistle/express');
+   - `port`: **必填**，1~65535的整数，whistle的启动端口
 
-1. `proxy(options)`: 返回中间件方法，类型：`Function` 
-	- `options`: 必填，包含以下属性
-		- `baseDir`: 可选，项目的根路径，即 `package.json` 所在目录，主要用于whistle加载 `baseDir` 目录下安装的whistle插件。
-		- `name`: 必填，当前项目package.json里面对应的name属性即可，用于区分其它服务器的标识及存储whistle配置
-		- `serverPort`: 必填，当前服务器监听的端口号
-		- `port`: 必填，whistle使用的端口号，一般可以设置为 `serverPort + 10000`
-		- `rules`: 可选，设置whistle的默认规则，也可以通过whistle配置管理界面手动设置
-		- `values`: 可选，往whistle的Values添加键值对
-		- `sockets`: 可选，设置whistle对相同域名的并发数，默认60，使用默认配置即可
-		- `username`: 可选，设置访问whistle管理界面的用户名，设置以后需要登录才能访问whistle的管理界面
-		- `password`: 可选，设置访问whistle管理界面的密码，设置以后需要登录才能访问whistle的管理界面
-		- `hint`: 可选，false | string, 用于关闭koa-whistle启动时控制台的提醒或重新修改whistle启动后控制台的提醒
-		 
-2. `proxy.ready()`: 返回一个Promise对象，whistle启动成功后会触发这个Promise对象，并把端口号传过来
-3. `proxy.getPort()`: 同 `proxy.ready()
-4. `proxy.getPortSync()`: 直接返回whistle监听的端口号，用这个方法不能确保whistle已经启动起来(一般除了启动初始化时调用接口用上面的 `getPort`，其它情况都可以直接设置接口)
-5. `proxy.connect(options)`: 通过whistle代理建立一个socket连接，这样请求可以显示在whistle的请求列表中
-	- `options`: 必填，包含一些属性
-		- `host`: 设置请求的IP或host，同 [net.Socket](https://nodejs.org/dist/latest-v6.x/docs/api/net.html#net_socket_connect_options_connectlistener)
-		- `port`: 请求端口号 
-		- `rules`:  动态设置规则
-			- `host`: 设置hosts，即请求服务器的ip和端口，如 `127.0.0.1`、`127.0.0.1:5566`
-			- `proxy`: 设置代理服务器的ip和端口，如 `127.0.0.1:8899`
-			- `socks`: 设置socksv5代理服务器的ip和端口，如 `127.0.0.1:1080`
+   - `baseDir`: 可选，String，一般为项目的根目录(即package.json所在目录)，主要用于自动加载`baseDir/node_modules`安装的whistle插件
 
-5. `proxy.createConnection(options)`: 同 `proxy.connect(options)`
-6. `proxy.setHost(headers, host)`:  设置http[s]请求的hosts，如 `127.0.0.1`、`127.0.0.1:5566`
-7. `proxy.setProxy(headers, proxy)`: 设置http[s]请求的代理服务器的ip和端口，如 `127.0.0.1:8899`
-8. `proxy.setSocks(headers, socks)`: 设置http[s]请求的socksv5代理服务器的ip和端口，如 `127.0.0.1:1080`
-9. `proxy.setHttpsRequest(headers)`: 通过设置请求的headers，whistle可以自动把http请求转成https请求，具体参见测试用例的写法： [例子](https://github.com/avwo/koa-whistle/tree/master/test)
-10. `proxy.startProxy(options)`: 同上面的 `proxy(options)`，主要用于在cluster启动whistle
+   - `rules`: 可选，String，whistle的默认规则，如 :
+
+     ``` 
+     www.test.com 127.0.0.1:6666
+     www.abc.com file:///User/xxx
+     ```
+
+     ​
+
+   - `values`: 可选，设置whistle的Values
+
+   - `username`: 可选，whistle抓包配置界面的用户名
+
+   - `password`: 可选，whistle抓包配置界面的密码
+
+   - `sockets`: 可选，每个域名的并发请求数，默认为60
+
+2. `proxy.createMiddleware(options)`: 创建koa2的中间件，其中
+
+   options:
+
+   - `proxyHost`: xxx
+   - `proxyPort`: xxx
+   - `serverPort`: xxx
+   - `serverHost`: xxx
+   - `name`: xxx
+   - `rules`: xxx
+   - `values`: xxx
+   - `filter(req)`: xxx
+
+3. `proxy.createKoaMiddleware(options)`: xxx
+
+4. `proxy.createExpressMiddleware(options)`: xxx
+
+5. `proxy.request(options[, cb])`: xxx
+
+6. `proxy.connect(options)`: xxx
+
+7. `proxy.getProxy({})`: xxx
+
+8. `proxy.getServerIp()`: xxx
+
+9. `proxy.getRandomPort()`: xxx
+
+10. `proxy.isRunning()`: xxx
 
 
 

@@ -1,115 +1,42 @@
-var net = require('net');
-var socks = require('socksv5');
-var http = require('http');
-var https = require('https');
-var parseUrl = require('url').parse;
-var path = require('path');
-var fs = require('fs');
+const net = require('net');
+const http = require('http');
+const https = require('https');
+const path = require('path');
+const fs = require('fs');
+const parseUrl = require('url').parse;
 
-var proxyServerPort = exports.proxyServerPort = 1090;
-var socksServerPort = exports.socksServerPort = 1080;
-var httpServerPort = exports.httpServerPort = 1070;
-var httpsServerPort = exports.httpsServerPort = 1060;
-var socketServerPort = exports.socketServerPort = 1050;
-var options = {
+const httpServerPort = exports.httpServerPort = 1070;
+const httpsServerPort = exports.httpsServerPort = 1060;
+const socketServerPort = exports.socketServerPort = 1050;
+const certOpts = {
   key: fs.readFileSync(path.join(__dirname, 'assets/certs/root.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'assets/certs/root.crt'))
+  cert: fs.readFileSync(path.join(__dirname, 'assets/certs/root.crt')),
 };
 
-exports.startProxyServer = function() {
-  var server = http.createServer(function(req, res) {
-    var fullUrl = /^http:/.test(req.url) ? req.url : 'http://' + req.headers.host + req.url;
-    var options = parseUrl(fullUrl);
-    delete options.hostname;
-    options.host = '127.0.0.1';
-    options.port = httpServerPort;
-    options.method = req.method;
-    options.headers = req.headers;
-    var client = http.request(options, function(_res) {
-      _res.pipe(res);
+exports.PATHNAME = '/whistle/test';
+
+exports.startHTTPServer = () => {
+  return new Promise((resolve) => {
+    const server = http.createServer((req, res) => {
+      res.end('HTTP');
     });
-    req.pipe(client);
-  });
-
-  server.on('connect', function(req, socket) {
-    var options = parseUrl('https://' + req.url);
-    var client = net.connect({
-      host: '127.0.0.1',
-      port: options.port || httpsServerPort
-    }, function() {
-      socket.pipe(client).pipe(socket);
-      socket.write('HTTP/1.1 200 Connection Established\r\nProxy-Agent: whistle/test\r\n\r\n');
-    });
-  });
-
-  return new Promise(function(resolve) {
-    server.listen(proxyServerPort, resolve);
+    server.listen(httpServerPort, resolve);
   });
 };
 
-exports.startSocksServer = function() {
-  var socksServer = socks.createServer(function(info, accept, deny) {
-    var socket, client;
-    if (info.dstPort === 443) {
-      if (socket = accept(true)) {
-        client = net.connect({
-          host: '127.0.0.1',
-          port: httpsServerPort
-        }, function() {
-          socket.pipe(client).pipe(socket);
-        });
-      }
-      return;
-    }
-    if (info.dstPort === 80) {
-      if (socket = accept(true)) {
-        client = net.connect({
-          host: '127.0.0.1',
-          port: httpServerPort
-        }, function() {
-          socket.pipe(client).pipe(socket);
-        });
-      }
-      return;
-    }
-    if (socket = accept(true)) {
-      client = net.connect({
-        host: '127.0.0.1',
-        port: info.dstPort
-      }, function() {
-        socket.pipe(client).pipe(socket);
-      });
-    }
-  });
-  socksServer.useAuth(socks.auth.None());
-  return new Promise(function(resolve) {
-    socksServer.listen(socksServerPort, resolve);
+exports.startHTTPsServer = () => {
+  return new Promise((resolve) => {
+    https.createServer(certOpts, (req, res) => {
+      res.end('HTTPs');
+    }).listen(httpsServerPort, resolve);
   });
 };
 
-exports.startHttpServer = function() {
-
-  return Promise.all([
-    new Promise(function(resolve) {
-      https.createServer(options, function(req, res) {
-        res.end('HTTPS');
-      }).listen(httpsServerPort, resolve);
-    }),
-    new Promise(function(resolve) {
-      var server = http.createServer(function(req, res) {
-        res.end('HTTP');
-      });
-      server.listen(httpServerPort, resolve);
-    }),
-  ]);
-};
-
-exports.startSocketServer = function() {
-
-  return new Promise(function(resolve) {
-    var server = net.createServer();
-    server.on('connection', function(socket) {
-      setTimeout(function() {
+exports.startSocketServer = function () {
+  return new Promise((resolve) => {
+    const server = net.createServer();
+    server.on('connection', (socket) => {
+      setTimeout(() => {
         socket.write('socket');
       }, 100);
     });
@@ -117,3 +44,13 @@ exports.startSocketServer = function() {
   });
 };
 
+exports.formatOptions = ({ url, host, port }) => {
+  const options = parseUrl(url);
+  if (host) {
+    options.hostname = host;
+  }
+  if (port > 0) {
+    options.port = port;
+  }
+  return { uri: options };
+};
