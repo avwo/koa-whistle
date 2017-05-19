@@ -23,8 +23,10 @@
 ``` 
 proxy.startWhistle({
   name: 'package.name', // 必填，一般为项目package.json的name字段
-  port: 16001, // 必填，whistle监听的端口号，一般可以设置为服务器端口号 + 10000
+  port: 16001, // 必填，whistle监听的端口号，一般可以设置为服务器端口号 + 10000，后面讲如何访问该whistle操作界面，可以直接通过web服务器的端口来访问
   baseDir: path.join(__dirname, '../project'), // 可选，一般为项目的根目录路径，主要用于内置的whistle加载项目自带的whistle插件
+  username: '', // 可选，设置whistle操作界面的用户名
+  password: '', // 可选，设置whistle操作界面的密码
   rules: 'www.test.com 127.0.0.1\nwww.abc.com 1.1.1.1:8080', // 可选，设置whistle的默认规则Default
   values: { test: 123, abc: 321}, // 可选，设置whistle的Values
   sockets: 60, // 可选，设置同一个域名whistle的并发请求量，默认为60，一般无需配置
@@ -95,7 +97,9 @@ proxy.startWhistle({
    app.listen(serverPort);
    ```
 
-   ​
+   配置好上述中间件后启动web服务，默认可以通过[http://127.0.0.1:6001/whistle](http://127.0.0.1:6001/whistle)(端口6001为web服务的端口，根据具体服务端口设置更改)访问whistle的操作界面
+
+   ![whistle]()
 
 服务器内部请求转发到内置whistle:
 
@@ -181,7 +185,7 @@ app.use((ctx) => {
 app.listen(serverPort);
 ```
 
-
+配置好上述中间件后启动web服务，默认可以通过[http://127.0.0.1:6001/whistle](http://127.0.0.1:6001/whistle)(端口6001为web服务的端口，根据具体服务端口设置更改)访问whistle的操作界面。
 
 服务器内部请求转发到外部代理服务器(如果是whistle，要安装插件[whistle.rules](https://github.com/whistle-plugins/whistle.rules)，其它代理需要手动配置把请求转会web服务): 
 
@@ -218,36 +222,37 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
 
      ​
 
-   - `values`: 可选，设置whistle的Values
+   - `values`: 可选，json对象，设置whistle的Values
 
-   - `username`: 可选，whistle抓包配置界面的用户名
+   - `username`: 可选，whistle操作界面的用户名
 
-   - `password`: 可选，whistle抓包配置界面的密码
+   - `password`: 可选，whistle操作界面的密码
 
-   - `sockets`: 可选，每个域名的并发请求数，默认为60
+   - `sockets`: 可选，每个域名的并发请求数，默认为60，一般使用默认配置即可
 
 2. `proxy.createMiddleware(options)`: 创建koa2的中间件，其中
 
    options:
 
-   - `proxyHost`: xxx
-   - `proxyPort`: xxx
-   - `serverPort`: xxx
-   - `serverHost`: xxx
-   - `name`: xxx
-   - `rules`: xxx
-   - `values`: xxx
-   - `filter(req)`: xxx
+   - `serverPort`:  **必填**，web服务监听的端口
+   - `serverHost`: 可选，默认为127.0.0.1，web服务所在机器的ip
+   - `name`: 可选，项目的名称，一般为package.json里面的name字段
+   - `proxyHost`: 可选，默认为127.0.0.1，代理服务器的ip
+   - `proxyPort`: 代理服务器的端口，如果启动了内置whistle，会默认使用内置whistle的端口，否则需要指定代理服务器的端口
+   - `rules`: 可选，数组或字符串，设置whistle的规则，如果是外置的whistle代理，需要安装插件[whistle.rules](https://github.com/whistle-plugins/whistle.rules)才能生效
+   - `values`: 可选，JSON对象，设置whistle的values，如果是外置的whistle代理，需要安装插件[whistle.rules](https://github.com/whistle-plugins/whistle.rules)才能生效
+   - `filter(req)`: 返回false，表示请求不要经过代理
+   - `pathname`:  可选，默认为/whistle，设置访问whistle操作界面的路径，如果需要禁用，可以设置为`?`，如pathname设置为`/a/b/c`，则可以通过[http://127.0.0.1:6001/a/b/c](http://127.0.0.1:6001/a/b/c)(端口6001为web服务的端口，根据具体服务端口设置更改)访问whistle的操作界面
 
-3. `proxy.createKoaMiddleware(options)`: xxx
+3. `proxy.createKoaMiddleware(options)`: 创建koa 1.x的中间件，options同 `proxy.createMiddleware(options)`
 
-4. `proxy.createExpressMiddleware(options)`: xxx
+4. `proxy.createExpressMiddleware(options)`: 创建express的中间件，options同 `proxy.createMiddleware(options)`
 
 5. `proxy.request(options[, cb])`: xxx
 
 6. `proxy.connect(options)`: xxx
 
-7. `proxy.getProxy({})`: xxx
+7. `proxy.getProxy(options)`: xxx
 
 8. `proxy.getServerIp()`: xxx
 
@@ -260,7 +265,43 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
 
 # 例子
 
-[Examples](https://github.com/avwo/koa-whistle/blob/master/test/index.test.js)
+以koa2为例：
+
+1. 确保本地安装的 `Node >= 7.6.0`
+
+2. 安装koa
+
+   ```
+   npm i koa
+   ```
+
+   ​
+
+3. 完整代码
+
+4. 如果是cluster模式启动的，要在master进程上执行 `startWhistle(options)`:
+
+   master.js:
+
+   ```
+   code
+   ```
+
+   worker.js:
+
+   ```
+   code
+   ```
+
+   执行:
+
+   ```
+   node master
+   ```
+
+   ​
+
+更多用法参考：[测试用例](https://github.com/avwo/koa-whistle/blob/master/test/index.test.js)
 
 
 
