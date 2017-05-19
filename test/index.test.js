@@ -109,7 +109,7 @@ describe('#koa middleware', () => {
   });
   it('1. not match', (done) => {
     request(util.formatOptions({
-      url: 'https://www.test.com/index2.html',
+      url: 'https://www.test.com/index2.html?{}{}%%%%%',
       host: '127.0.0.1',
       port: koaPort,
     }), (err, res, body) => {
@@ -154,7 +154,7 @@ describe('#express middleware', () => {
   });
   it('by domain', (done) => {
     request(util.formatOptions({
-      url: 'http://www.test.com/cgi-bin/get2',
+      url: 'http://www.test.com/cgi-bin/get2?{}{}%%%%%',
       host: '127.0.0.1',
       port: expressPort,
     }), (err, res, body) => {
