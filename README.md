@@ -241,24 +241,24 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
    - `proxyPort`: 代理服务器的端口，如果启动了内置whistle，会默认使用内置whistle的端口，否则需要指定代理服务器的端口
    - `rules`: 可选，数组或字符串，设置whistle的规则，如果是外置的whistle代理，需要安装插件[whistle.rules](https://github.com/whistle-plugins/whistle.rules)才能生效
    - `values`: 可选，JSON对象，设置whistle的values，如果是外置的whistle代理，需要安装插件[whistle.rules](https://github.com/whistle-plugins/whistle.rules)才能生效
-   - `filter(req)`: 返回false(或返回Promise，Promise.resolve(false))，表示请求不要经过代理
+   - `filter(req)`: 返回false(或返回Promise，Promise.resolve(false))，表示请求不要经过代理，req为koa和、express的this.req、ctx.req、req对象
    - `pathname`:  可选，默认为/whistle，设置访问whistle操作界面的路径，如果需要禁用，可以设置为`?`，如pathname设置为`/a/b/c`，则可以通过[http://127.0.0.1:6001/a/b/c](http://127.0.0.1:6001/a/b/c)(端口6001为web服务的端口，根据具体服务端口设置更改)访问whistle的操作界面
 
 3. `proxy.createKoaMiddleware(options)`: 创建koa 1.x的中间件，options同 `proxy.createMiddleware(options)`
 
 4. `proxy.createExpressMiddleware(options)`: 创建express的中间件，options同 `proxy.createMiddleware(options)`
 
-5. `proxy.request(options[, cb])`: xxx
+5. `proxy.request(options[, cb])`: 发送http[s]请求，返回Promise(如果cb不为空或者为function，会直接返回响应的body，具体用法可以参考上面的例子)，这些请求可以在内置whistle界面上看到，其中options参考[request](https://github.com/request/request#requestoptions-callback)，除此之外，options还可以通过rules和values携带whistle的rules和values，其中rules可以为字符串或数组，values为json对象，`proxy.request` 会分别把这两个转成字符串放到 `x-whistle-rules` 和 `x-whistle-values` 两个请求头字段，这个需要跟插件[whistle.rules](https://github.com/whistle-plugins/whistle.rules)配合使用
 
-6. `proxy.connect(options)`: xxx
+6. `proxy.connect(options)`: 发送socket请求，这些请求可以在内置whistle界面上看到，具体用法可以参考上面的使用例子
 
-7. `proxy.getProxy(options)`: xxx
+7. `proxy.getProxy(options)`: 通过传人的 `proxyHost` 和 `proxyPort` 获取新的代理对象，该对象包含 { request, connect } 两个方法，这两个方法的用法同上，请求会转发到指定的代理服务，如果不填则使用默认内置代理(这种情况要确保已经执行`proxy.startWhistle`)
 
-8. `proxy.getServerIp()`: xxx
+8. `proxy.getServerIp()`: 获取当前服务器的内网ip
 
-9. `proxy.getRandomPort()`: xxx
+9. `proxy.getRandomPort()`: 随机获取未被使用的端口，该接口是异步的，返回一个Promise对象，可以通过该Promise对象获取未被使用的端口，具体用法看下面的例子。
 
-10. `proxy.isRunning()`: xxx
+10. `proxy.isRunning()`: true | false，判断当前内置whistle是否处于运行中，内置whistle可以同时起多个(不同的whistle实例要确保name属性不一样，否则规则会相互覆盖)。
 
 
 
@@ -277,29 +277,86 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
 
    ​
 
-3. 完整代码
+3. 完整代码:
 
-4. 如果是cluster模式启动的，要在master进程上执行 `startWhistle(options)`:
-
-   master.js:
+   server.js:
 
    ```
-   code
-   ```
+   const proxy = require('koa-whistle');
+   const Koa = require('koa');
 
-   worker.js:
-
-   ```
-   code
+   const app = new Koa();
+   const port = 7001;
+   proxy.getRandomPort((randomPort) => {、
+     // 如果要使用内置的whistle，一定要确保startWhistle在crreateMiddleware前执行
+     app.startWhistle({ port: randomPort });
+     app.use(proxy.crreateMiddleware({ serverPort: port }));
+     app.use(async (ctx) => {
+       const res = await proxy.request('https://github.com');
+       ctx.status = res.statusCode;
+       ctx.set(res.headers);
+       ctx.body = res;
+     });
+     app.listen(port);
+   });
    ```
 
    执行:
 
    ```
-   node master
+   node server
    ```
 
-   ​
+   打开 [http://127.0.0.1/whistle](http://127.0.0.1/whistle) 效果图:
+
+   ![非cluster模式的例子](.gif)
+
+4. 如果是cluster模式启动的，要在master进程上执行 `startWhistle(options)`:
+
+   dispatch.js:
+
+   ```
+   const cluster = require('cluster');
+   const proxy = require('koa-whistle');
+   const Koa = require('koa');
+
+   if (cluster.isMaster) {
+     proxy.getRandomPort((randomPort) => {、
+       // 如果要使用内置的whistle，一定要确保startWhistle后才fork worker
+       app.startWhistle({ port: randomPort });
+       cluster.fork('./worker');
+     });
+   } else {
+     const app = new Koa();
+     const port = 8001;
+
+     app.use(proxy.crreateMiddleware({
+       serverPort: port,
+       pathname: '/test/cluster'
+     }));
+     app.use(async (ctx) => {
+       const res = await proxy.request({
+         uri: 'https://github.com',
+         rules: 'github.com file://{test.html}',
+         values: { 'test.html': 'Hi all!'}
+       });
+       ctx.status = res.statusCode;
+       ctx.set(res.headers);
+       ctx.body = res;
+     });
+     app.listen(port);
+   }
+   ```
+
+   执行:
+
+   ```
+   node dispatch
+   ```
+
+   打开 [http://127.0.0.1/test/cluster](http://127.0.0.1/test/cluster) 效果图:
+
+   ![cluster模式的例子](.gif)
 
 更多用法参考：[测试用例](https://github.com/avwo/koa-whistle/blob/master/test/index.test.js)
 
