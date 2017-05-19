@@ -46,4 +46,6 @@ jspm_packages
 .babelrc
 .gitignore
 .travis.yml
+.editorconfig
+.eslintrc
 /demos
