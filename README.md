@@ -241,7 +241,7 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
    - `proxyPort`: 代理服务器的端口，如果启动了内置whistle，会默认使用内置whistle的端口，否则需要指定代理服务器的端口
    - `rules`: 可选，数组或字符串，设置whistle的规则，如果是外置的whistle代理，需要安装插件[whistle.rules](https://github.com/whistle-plugins/whistle.rules)才能生效
    - `values`: 可选，JSON对象，设置whistle的values，如果是外置的whistle代理，需要安装插件[whistle.rules](https://github.com/whistle-plugins/whistle.rules)才能生效
-   - `filter(req)`: 返回false，表示请求不要经过代理
+   - `filter(req)`: 返回false(或返回Promise，Promise.resolve(false))，表示请求不要经过代理
    - `pathname`:  可选，默认为/whistle，设置访问whistle操作界面的路径，如果需要禁用，可以设置为`?`，如pathname设置为`/a/b/c`，则可以通过[http://127.0.0.1:6001/a/b/c](http://127.0.0.1:6001/a/b/c)(端口6001为web服务的端口，根据具体服务端口设置更改)访问whistle的操作界面
 
 3. `proxy.createKoaMiddleware(options)`: 创建koa 1.x的中间件，options同 `proxy.createMiddleware(options)`
