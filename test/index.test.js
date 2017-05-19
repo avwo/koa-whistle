@@ -15,7 +15,7 @@ before((done) => {
       util.startHTTPServer(),
       util.startHTTPsServer(),
       util.startSocketServer(),
-    ]).then(() => done);
+    ]).then(() => done());
   });
 });
 
