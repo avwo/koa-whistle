@@ -43,6 +43,15 @@ describe('#request', () => {
       done();
     });
   });
+  it('https proxy.request(options, true)', (done) => {
+    proxy.request({
+      url: 'https://www.test.com/index.html',
+      rules: [`www.test.com 127.0.0.1:${util.httpsServerPort}`],
+    }, true).then((res) => {
+      assert(res.body === 'HTTPs', 'Expected to return string HTTPs.');
+      done();
+    });
+  });
   it('https proxy.request(options)', (done) => {
     proxy.request({
       url: 'https://www.test.com/index.html',
