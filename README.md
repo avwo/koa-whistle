@@ -269,10 +269,10 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
 
 1. 确保本地安装的 `Node >= 7.6.0`
 
-2. 安装koa
+2. 安装全局koa、koa-whistle
 
    ```
-   npm i koa
+   npm i -g koa koa-whistle
    ```
 
    ​
@@ -287,17 +287,19 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
 
    const app = new Koa();
    const port = 7001;
-   proxy.getRandomPort((randomPort) => {、
+   proxy.getRandomPort().then((randomPort) => {
      // 如果要使用内置的whistle，一定要确保startWhistle在crreateMiddleware前执行
-     app.startWhistle({ port: randomPort });
-     app.use(proxy.crreateMiddleware({ serverPort: port }));
+     proxy.startWhistle({ name: 'test-koa-whistle', port: randomPort });
+     app.use(proxy.createMiddleware({ serverPort: port }));
      app.use(async (ctx) => {
        const res = await proxy.request('https://github.com');
        ctx.status = res.statusCode;
        ctx.set(res.headers);
        ctx.body = res;
      });
-     app.listen(port);
+     app.listen(port, () => {
+       console.log(`Server listening on ${port}.`);
+     });
    });
    ```
 
@@ -321,30 +323,32 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
    const Koa = require('koa');
 
    if (cluster.isMaster) {
-     proxy.getRandomPort((randomPort) => {
+     proxy.getRandomPort().then((randomPort) => {
        // 如果要使用内置的whistle，一定要确保startWhistle后才fork worker
-       app.startWhistle({ port: randomPort });
-       cluster.fork('./worker');
+       proxy.startWhistle({ name: 'test-cluster', port: randomPort });
+       cluster.fork();
      });
    } else {
      const app = new Koa();
      const port = 8001;
 
-     app.use(proxy.crreateMiddleware({
+     app.use(proxy.createMiddleware({
        serverPort: port,
-       pathname: '/test/cluster'
+       pathname: '/test/cluster',
      }));
      app.use(async (ctx) => {
        const res = await proxy.request({
          uri: 'https://github.com',
          rules: 'github.com file://{test.html}',
-         values: { 'test.html': 'Hi all!'}
+         values: { 'test.html': 'Hi all!'},
        });
        ctx.status = res.statusCode;
        ctx.set(res.headers);
        ctx.body = res;
      });
-     app.listen(port);
+     app.listen(port, () => {
+       console.log(`Server listening on ${port}.`);
+     });
    }
    ```
 
