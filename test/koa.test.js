@@ -15,7 +15,7 @@ rules.push('//www.test.com/cgi-bin/get file://{test.json}');
 
 const getBody = () => {
   return Promise.resolve('koa');
-}
+};
 
 module.exports = () => {
   const certOpts = {
