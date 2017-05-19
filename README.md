@@ -131,8 +131,8 @@ proxy.startWhistle({
      ```
      # 返回promise
      const result = proxy.request('https://github.com', true);
-     result.then((res, body) => {
-       const { statusCode, headers } = res;
+     result.then((res) => {
+       const { statusCode, headers, body } = res;
        // do sth
      }).catch((err) => {
        // handle error
@@ -253,6 +253,11 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
 6. `proxy.connect(options)`: 发送socket请求，这些请求可以在内置whistle界面上看到，具体用法可以参考上面的使用例子
 
 7. `proxy.getProxy(options)`: 通过传人的 `proxyHost` 和 `proxyPort` 获取新的代理对象，该对象包含 { request, connect } 两个方法，这两个方法的用法同上，请求会转发到指定的代理服务，如果不填则使用默认内置代理(这种情况要确保已经执行`proxy.startWhistle`)
+
+   options:
+
+   - proxyHost: 代理的ip或域名，默认为127.0.0.1
+   - proxyPort: 代理端口
 
 8. `proxy.getServerIp()`: 获取当前服务器的内网ip
 
