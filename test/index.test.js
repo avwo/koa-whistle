@@ -27,6 +27,7 @@ describe('#connect', () => {
     }).then((socket) => {
       socket.on('data', (data) => {
         assert(`${data}` === 'socket', 'Expected to return string socket.');
+        done();
       });
     });
   });

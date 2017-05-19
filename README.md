@@ -321,7 +321,7 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
    const Koa = require('koa');
 
    if (cluster.isMaster) {
-     proxy.getRandomPort((randomPort) => {、
+     proxy.getRandomPort((randomPort) => {
        // 如果要使用内置的whistle，一定要确保startWhistle后才fork worker
        app.startWhistle({ port: randomPort });
        cluster.fork('./worker');
