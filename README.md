@@ -99,7 +99,7 @@ proxy.startWhistle({
 
    配置好上述中间件后启动web服务，默认可以通过[http://127.0.0.1:6001/whistle](http://127.0.0.1:6001/whistle)(端口6001为web服务的端口，根据具体服务端口设置更改)访问whistle的操作界面
 
-   ![whistle]()
+   ![whistle](https://raw.githubusercontent.com/avwo/whistleui/master/img/koa-whistle/whistle.png)
 
 服务器内部请求转发到内置whistle:
 
@@ -316,7 +316,7 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
 
    打开 [http://127.0.0.1/whistle](http://127.0.0.1/whistle) 效果图:
 
-   ![非cluster模式的例子](.gif)
+   ![非cluster模式的例子](https://raw.githubusercontent.com/avwo/whistleui/master/img/koa-whistle/demo1.gif)
 
 4. 如果是cluster模式启动的，要在master进程上执行 `startWhistle(options)`:
 
@@ -365,7 +365,7 @@ outerProxy.request 和 outerProxy.connect 参见服务器内部请求转发到�
 
    打开 [http://127.0.0.1/test/cluster](http://127.0.0.1/test/cluster) 效果图:
 
-   ![cluster模式的例子](.gif)
+   ![cluster模式的例子](https://raw.githubusercontent.com/avwo/whistleui/master/img/koa-whistle/demo2.gif)
 
 更多用法参考：[测试用例](https://github.com/avwo/koa-whistle/blob/master/test/index.test.js)
 
