@@ -1,4 +1,9 @@
 # koa-whistle
+[![node version](https://img.shields.io/badge/node.js-%3E=_0.6-green.svg?style=flat-square)](http://nodejs.org/download/)
+[![build status](https://img.shields.io/travis/avwo/koa-whistle.svg?style=flat-square)](https://travis-ci.org/avwo/koa-whistle)
+[![Test coverage](https://codecov.io/gh/avwo/koa-whistle/branch/master/graph/badge.svg?style=flat-square)](https://codecov.io/gh/avwo/koa-whistle)
+[![David deps](https://img.shields.io/david/avwo/koa-whistle.svg?style=flat-square)](https://david-dm.org/avwo/koa-whistle)
+[![License](https://img.shields.io/npm/l/koa-whistle.svg?style=flat-square)](https://www.npmjs.com/package/koa-whistle)
 
 集成[whistle](https://github.com/avwo/whistle)的express、koa、koa2的中间件，通过该中间件可以在启动web服务时运行一个whistle，通过whistle查看所有访问web服务的请求，web服务内部程序调用的http[s]、socket请求也可以转发到该whistle，通过whistle请求指定的ip和端口；也可以直接转发到本地或远程的whistle，无需每个web服务起一个whistle；从而可以通过whistle及whistle的插件操作所有用户请求和程序内部发出的请求，如：mock数据、配置hosts、设置代理、替换请求等，更多功能参见[whistle帮助文档](https://avwo.github.io/whistle/)
 
