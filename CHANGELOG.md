@@ -13,5 +13,8 @@
 ### v1.0.0
 整个API重新设计，具体见[README](https://github.com/avwo/koa-whistle)
 
-# v1.0.1
+### v1.0.1
 1. fix: 无法找到whistle.rules插件的问题
+
+# v1.1.0
+1. refactor: 升级whistle，支持查看所有https请求
