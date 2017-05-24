@@ -16,5 +16,8 @@
 ### v1.0.1
 1. fix: 无法找到whistle.rules插件的问题
 
-# v1.1.0
+### v1.1.0
 1. refactor: 升级whistle，支持查看所有https请求
+
+# v1.1.1
+1. refactor: 清除程序内部使用的请求头
