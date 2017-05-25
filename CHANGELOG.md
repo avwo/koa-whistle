@@ -19,5 +19,9 @@
 ### v1.1.0
 1. refactor: 升级whistle，支持查看所有https请求
 
-# v1.1.1
+### v1.1.1
 1. refactor: 清除程序内部使用的请求头
+
+# v1.1.2
+1. feat: 添加 `proxyRequest` 保留原有request的方法
+2. refactor: 不要全局hack request 
