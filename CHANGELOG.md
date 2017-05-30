@@ -27,4 +27,4 @@
 2. refactor: 不要全局hack request 
 
 # v1.1.3
-1. refactor: 防止request方法自动处理redirect请求
+1. refactor: 防止用户请求自动处理redirect请求
