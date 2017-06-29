@@ -26,5 +26,8 @@
 1. feat: 添加 `proxyRequest` 保留原有request的方法
 2. refactor: 不要全局hack request 
 
-# v1.1.3
+### v1.1.3
 1. refactor: 防止用户请求自动处理redirect请求
+
+# v1.1.4
+1. refactor: 优化 `getRandomPort()` 
