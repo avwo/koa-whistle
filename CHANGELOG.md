@@ -29,5 +29,8 @@
 ### v1.1.3
 1. refactor: 防止用户请求自动处理redirect请求
 
-# v1.1.4
+### v1.1.4
 1. refactor: 优化 `getRandomPort()` 
+
+# v1.1.5
+1. refactor:　用host替代fullUrl
